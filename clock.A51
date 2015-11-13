@@ -15,6 +15,7 @@ start:		setb		ex0
 			mov			a,#00h
 ad:			acall		show_all
 			acall		D_1S
+			cpl			p3.0
 			acall		add_m
 			acall		check_add
 stop:		sjmp		ad
@@ -27,10 +28,14 @@ ch_2:		jb			p1.1,ch_3
 			acall		add_h
 			acall		show_all
 stop_2:		jnb			p1.1,stop_2
-ch_3:		jb			p1.2,to_ret2
+ch_3:		jb			p1.2,ch_4
 			acall		add_d
 			acall		show_all
-stop_3:		jnb			p1.2,stop_3		
+stop_3:		jnb			p1.2,stop_3
+ch_4:		jb			p1.3,to_ret2
+			acall		add_mo
+			acall		show_all
+stop_4:		jnb			p1.3,stop_4		
 to_ret2:	ret
 
 show_y:		mov			a,#"1"
@@ -75,8 +80,14 @@ show_d:		clr			a
 			anl			a,#0fh	
 			mov			dptr,#tb_n
 			movc		a,@a+dptr
-			acall		dat
+			cjne		r4,#32h,pass1
+			acall		clr_d
+pass1:		acall		dat
 			acall		delay
+			ret
+
+clr_d:		mov			r4,#01h
+			acall		add_mo
 			ret
 
 show_mo:	cjne		r5,#1,c_m_2
@@ -120,6 +131,21 @@ mo_jan:		mov			a,#"j"
 			acall		dat
 			acall		delay
 			mov			a,#"a"
+			acall		dat
+			acall		delay
+			mov			a,#"n"
+			acall		dat
+			acall		delay
+			mov			a,#"u"
+			acall		dat
+			acall		delay
+			mov			a,#"a"
+			acall		dat
+			acall		delay
+			mov			a,#"r"
+			acall		dat
+			acall		delay
+			mov			a,#"y"
 			acall		dat
 			acall		delay
 			ret
@@ -284,6 +310,13 @@ add_d:		clr			a
 			mov			r4,a
 			ret
 
+add_mo:		clr			a
+			add			a,r5		
+			da			a
+			inc			a
+			mov			r5,a
+			ret
+
 setup:		mov			r0,#30h
 			mov 		a,#38h
 			acall 		com
@@ -331,10 +364,10 @@ b3: 		djnz 		r0,b2
 tb_n:		db			"0","1","2","3","4","5","6","7","8","9"
 
 D_1S:		push		0
-			mov			r0,#15				  ;15 to 1 sec	 900 to 1 min
+			mov			r0,#20				  ;15 to 1 sec	 900 to 1 min
 HERE:		MOV 		TMOD,#01
-	 		MOV 		TL0,#00H
-			MOV 		TH0,#00H
+	 		MOV 		TL0,#-250
+			MOV 		TH0,#-200
 			ACALL 		DELAY1s
 			djnz		r0,here
 			pop			0
