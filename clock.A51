@@ -1,6 +1,8 @@
 			org 		0000h
 			mov			r2,#00h		;min
 			mov			r3,#00h		;hr
+			mov			r4,#00h		;day
+			mov			r5,#01h		;mon
 start:		acall		setup
 			mov			a,#00h
 ad:			acall		clear
@@ -31,39 +33,154 @@ show_bk:	mov			a,#" "
 			acall		delay
 			ret
 
-show_d:		mov			a,#"3"
+show_d:		clr			a
+			add			a,r4
+			da			a
+			anl			a,#0f0h
+			swap		a	
+			mov			dptr,#tb_n
+			movc		a,@a+dptr
 			acall		dat
 			acall		delay
-			mov			a,#"1"
+			clr			a
+			add			a,r4
+			da			a
+			anl			a,#0fh	
+			mov			dptr,#tb_n
+			movc		a,@a+dptr
 			acall		dat
 			acall		delay
 			ret
 
-show_mo:	mov			a,#"S"
+show_mo:	cjne		r5,#1,c_m_2
+			acall		mo_jan
+			ajmp		to_ret	
+c_m_2:		cjne		r5,#2,c_m_3
+			acall		mo_feb
+			ajmp		to_ret
+c_m_3:		cjne		r5,#3,c_m_4
+			acall		mo_mar
+			ajmp		to_ret
+c_m_4:		cjne		r5,#4,c_m_5
+			acall		mo_apr
+			ajmp		to_ret
+c_m_5:		cjne		r5,#5,c_m_6
+			acall		mo_may
+			ajmp		to_ret
+c_m_6:		cjne		r5,#6,c_m_7
+			acall		mo_jun
+			ajmp		to_ret
+c_m_7:		cjne		r5,#7,c_m_8
+			acall		mo_jul
+			ajmp		to_ret
+c_m_8:		cjne		r5,#8,c_m_9
+			acall		mo_aug
+			ajmp		to_ret
+c_m_9:		cjne		r5,#9,c_m_10
+			acall		mo_sep
+			ajmp		to_ret
+c_m_10:		cjne		r5,#10,c_m_11
+			acall		mo_oct
+			ajmp		to_ret
+c_m_11:		cjne		r5,#0,c_m_12
+			acall		mo_nov
+			ajmp		to_ret
+c_m_12:		acall		mo_dec
+			ajmp		to_ret
+			ret
+
+mo_jan:		mov			a,#"j"
+			acall		dat
+			acall		delay
+			mov			a,#"a"
+			acall		dat
+			acall		delay
+			ret
+
+mo_feb:		mov			a,#"f"
 			acall		dat
 			acall		delay
 			mov			a,#"e"
+			acall		dat
+			acall		delay
+			ret
+
+mo_mar:		mov			a,#"m"
+			acall		dat
+			acall		delay
+			mov			a,#"a"
+			acall		dat
+			acall		delay
+			ret
+
+mo_apr:		mov			a,#"a"
 			acall		dat
 			acall		delay
 			mov			a,#"p"
 			acall		dat
 			acall		delay
-			mov			a,#"t"
+			ret
+
+mo_may:		mov			a,#"m"
+			acall		dat
+			acall		delay
+			mov			a,#"a"
+			acall		dat
+			acall		delay
+			ret
+
+mo_jun:		mov			a,#"j"
+			acall		dat
+			acall		delay
+			mov			a,#"u"
+			acall		dat
+			acall		delay
+			ret
+
+mo_jul:		mov			a,#"u"
+			acall		dat
+			acall		delay
+			mov			a,#"u"
+			acall		dat
+			acall		delay
+			ret
+
+mo_aug:		mov			a,#"a"
+			acall		dat
+			acall		delay
+			mov			a,#"u"
+			acall		dat
+			acall		delay
+			ret
+
+mo_sep:		mov			a,#"S"
 			acall		dat
 			acall		delay
 			mov			a,#"e"
 			acall		dat
 			acall		delay
-			mov			a,#"m"
+			ret
+
+mo_oct:		mov			a,#"o"
 			acall		dat
 			acall		delay
-			mov			a,#"b"
+			mov			a,#"c"
+			acall		dat
+			acall		delay
+			ret
+
+mo_nov:		mov			a,#"n"
+			acall		dat
+			acall		delay
+			mov			a,#"o"
+			acall		dat
+			acall		delay
+			ret
+
+mo_dec:		mov			a,#"d"
 			acall		dat
 			acall		delay
 			mov			a,#"e"
-			acall		dat
-			acall		delay
-			mov			a,#"r"
 			acall		dat
 			acall		delay
 			ret
@@ -125,6 +242,19 @@ add_h:		clr			a
 			da			a
 			inc			a
 			mov			r3,a
+			cjne		r3,#24h,to_ret		;check 24 hz
+			acall		clr_h
+			ret
+
+clr_h:		mov			r3,#00h
+			acall		add_d
+			ret
+
+add_d:		clr			a
+			add			a,r4		
+			da			a
+			inc			a
+			mov			r4,a
 			ret
 
 setup:		mov			r0,#30h
@@ -174,7 +304,7 @@ b3: 		djnz 		r0,b2
 tb_n:		db			"0","1","2","3","4","5","6","7","8","9"
 
 D_1S:		push		0
-			mov			r0,#1
+			mov			r0,#1				  ;15 to 1 sec	 900 to 1 min
 HERE:		MOV 		TMOD,#01
 	 		MOV 		TL0,#00H
 			MOV 		TH0,#00H
