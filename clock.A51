@@ -1,11 +1,48 @@
-			org 		0000h
+			org			0000
+			ljmp		start
+			org			0003h
+			reti
+
+			
+			org 		30h
+start:		setb		ex0
+			setb		ea
 			mov			r2,#00h		;min
 			mov			r3,#00h		;hr
-			mov			r4,#00h		;day
+			mov			r4,#01h		;day
 			mov			r5,#01h		;mon
-start:		acall		setup
+			acall		setup
 			mov			a,#00h
-ad:			acall		clear
+ad:			acall		show_all
+			acall		D_1S
+			acall		add_m
+			acall		check_add
+stop:		sjmp		ad
+
+check_add:	jb			p1.0,ch_2
+			acall		add_m
+			acall		show_all
+stop_1:		jnb			p1.0,stop_1
+ch_2:		jb			p1.1,ch_3
+			acall		add_h
+			acall		show_all
+stop_2:		jnb			p1.1,stop_2
+ch_3:		jb			p1.2,to_ret2
+			acall		add_d
+			acall		show_all
+stop_3:		jnb			p1.2,stop_3		
+to_ret2:	ret
+
+show_y:		mov			a,#"1"
+			acall		dat
+			acall		delay
+			mov			a,#"5"
+			acall		dat
+			acall		delay
+			ret
+
+
+show_all:	acall		clear
 			acall		show_d
 			acall		show_bk
 			acall		show_mo
@@ -15,17 +52,7 @@ ad:			acall		clear
 		 	acall 		com
 		  	acall 		delay
 			acall		show_m
-			acall		add_m
-			acall		D_1S
-stop:		sjmp		ad
-
-
-show_y:		mov			a,#"1"
-			acall		dat
-			acall		delay
-			mov			a,#"5"
-			acall		dat
-			acall		delay
+			cpl			p0.0
 			ret
 
 show_bk:	mov			a,#" "
@@ -281,19 +308,19 @@ clear:		mov 		a,#01h
 			ret
 
 com: 		mov 		p2,a
-		    clr 		p3.0
-			clr 		p3.1
-			setb 		p3.2
+		    clr 		p3.5
+			clr 		p3.6
+			setb 		p3.7
 			acall 		delay
-			clr 		p3.2
+			clr 		p3.7
 			ret
 
 dat: 		mov 		p2,a
-		    setb 		p3.0
-			clr 		p3.1
-			setb 		p3.2
+		    setb 		p3.5
+			clr 		p3.6
+			setb 		p3.7
 			call 		delay
-			clr 		p3.2
+			clr 		p3.7
 			ret
 
 delay: 		mov 		r0,#04h
@@ -304,14 +331,15 @@ b3: 		djnz 		r0,b2
 tb_n:		db			"0","1","2","3","4","5","6","7","8","9"
 
 D_1S:		push		0
-			mov			r0,#1				  ;15 to 1 sec	 900 to 1 min
+			mov			r0,#15				  ;15 to 1 sec	 900 to 1 min
 HERE:		MOV 		TMOD,#01
 	 		MOV 		TL0,#00H
 			MOV 		TH0,#00H
 			ACALL 		DELAY1s
 			djnz		r0,here
 			pop			0
-			ret				
+			ret
+							
 DELAY1s: 	SETB 		TR0
 AGAIN: 		JNB 		TF0,AGAIN
 			CLR 		TR0
