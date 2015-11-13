@@ -9,8 +9,9 @@ start:		setb		ex0
 			setb		ea
 			mov			r2,#00h		;min
 			mov			r3,#00h		;hr
-			mov			r4,#01h		;day
-			mov			r5,#01h		;mon
+			mov			r4,#29h		;day
+			mov			r5,#11h		;mon
+			mov			r6,#15h		;year
 			acall		setup
 			mov			a,#00h
 ad:			acall		show_all
@@ -37,15 +38,6 @@ ch_4:		jb			p1.3,to_ret2
 			acall		show_all
 stop_4:		jnb			p1.3,stop_4		
 to_ret2:	ret
-
-show_y:		mov			a,#"1"
-			acall		dat
-			acall		delay
-			mov			a,#"5"
-			acall		dat
-			acall		delay
-			ret
-
 
 show_all:	acall		clear
 			acall		show_d
@@ -80,14 +72,8 @@ show_d:		clr			a
 			anl			a,#0fh	
 			mov			dptr,#tb_n
 			movc		a,@a+dptr
-			cjne		r4,#32h,pass1
-			acall		clr_d
-pass1:		acall		dat
+			acall		dat
 			acall		delay
-			ret
-
-clr_d:		mov			r4,#01h
-			acall		add_mo
 			ret
 
 show_mo:	cjne		r5,#1,c_m_2
@@ -443,6 +429,12 @@ add_d:		clr			a
 			da			a
 			inc			a
 			mov			r4,a
+			cjne		r4,#32h,pass1
+			acall		clr_d
+pass1:		ret
+
+clr_d:		mov			r4,#01h
+			acall		add_mo
 			ret
 
 add_mo:		clr			a
@@ -450,6 +442,39 @@ add_mo:		clr			a
 			da			a
 			inc			a
 			mov			r5,a
+			cjne		r5,#12h,pass1
+			acall		clr_mo
+			ret
+
+clr_mo:		mov			r5,#01h
+			acall		add_y
+			ret
+
+add_y:		clr			a
+			add			a,r6		
+			da			a
+			inc			a
+			mov			r6,a
+			ret
+
+
+show_y:		clr			a
+			add			a,r6
+			da			a
+			anl			a,#0f0h
+			swap		a	
+			mov			dptr,#tb_n
+			movc		a,@a+dptr
+			acall		dat
+			acall		delay
+			clr			a
+			add			a,r6
+			da			a
+			anl			a,#0fh	
+			mov			dptr,#tb_n
+			movc		a,@a+dptr
+			acall		dat
+			acall		delay
 			ret
 
 setup:		mov			r0,#30h
