@@ -127,81 +127,144 @@ c_m_12:		acall		mo_dec
 			ajmp		to_ret
 			ret
 
-mo_jan:		mov			a,#"j"
+mo_jan:		mov			a,#"J"
 			acall		dat
 			acall		delay
-			mov			a,#"a"
+			mov			a,#"A"
 			acall		dat
 			acall		delay
-			mov			a,#"n"
+			mov			a,#"N"
 			acall		dat
 			acall		delay
-			mov			a,#"u"
+			mov			a,#"U"
 			acall		dat
 			acall		delay
-			mov			a,#"a"
+			mov			a,#"A"
 			acall		dat
 			acall		delay
-			mov			a,#"r"
+			mov			a,#"R"
 			acall		dat
 			acall		delay
-			mov			a,#"y"
-			acall		dat
-			acall		delay
-			ret
-
-mo_feb:		mov			a,#"f"
-			acall		dat
-			acall		delay
-			mov			a,#"e"
+			mov			a,#"Y"
 			acall		dat
 			acall		delay
 			ret
 
-mo_mar:		mov			a,#"m"
+mo_feb:		mov			a,#"F"
 			acall		dat
 			acall		delay
-			mov			a,#"a"
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"B"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
+			acall		dat
+			acall		delay
+			mov			a,#"U"
+			acall		dat
+			acall		delay
+			mov			a,#"A"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
+			acall		dat
+			acall		delay
+			mov			a,#"Y"
+			acall		dat
+			acall 		delay
+			ret
+
+mo_mar:		mov			a,#"M"
+			acall		dat
+			acall		delay
+			mov			a,#"A"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
+			acall		dat
+			acall		delay
+			mov			a,#"C"
+			acall		dat
+			acall		delay
+			mov			a,#"H"
 			acall		dat
 			acall		delay
 			ret
 
-mo_apr:		mov			a,#"a"
+mo_apr:		mov			a,#"A"
 			acall		dat
 			acall		delay
-			mov			a,#"p"
+			mov			a,#"P"
 			acall		dat
 			acall		delay
-			ret
-
-mo_may:		mov			a,#"m"
+			mov			a,#"R"
 			acall		dat
 			acall		delay
-			mov			a,#"a"
+			mov			a,#"I"
 			acall		dat
 			acall		delay
-			ret
-
-mo_jun:		mov			a,#"j"
-			acall		dat
-			acall		delay
-			mov			a,#"u"
+			mov			a,#"L"
 			acall		dat
 			acall		delay
 			ret
 
-mo_jul:		mov			a,#"u"
+mo_may:		mov			a,#"M"
 			acall		dat
 			acall		delay
-			mov			a,#"u"
+			mov			a,#"A"
+			acall		dat
+			acall		delay
+			mov			a,#"Y"
 			acall		dat
 			acall		delay
 			ret
 
-mo_aug:		mov			a,#"a"
+mo_jun:		mov			a,#"J"
 			acall		dat
 			acall		delay
-			mov			a,#"u"
+			mov			a,#"U"
+			acall		dat
+			acall		delay
+			mov			a,#"N"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			ret
+
+mo_jul:		mov			a,#"J"
+			acall		dat
+			acall		delay
+			mov			a,#"U"
+			acall		dat
+			acall		delay
+			mov			a,#"L"
+			acall		dat
+			acall		delay
+			mov			a,#"Y"
+			acall		dat
+			acall		delay
+			ret
+
+mo_aug:		mov			a,#"A"
+			acall		dat
+			acall		delay
+			mov			a,#"U"
+			acall		dat
+			acall		delay
+			mov			a,#"G"
+			acall		dat
+			acall		delay
+			mov			a,#"U"
+			acall		dat
+			acall		delay
+			mov			a,#"S"
+			acall		dat
+			acall		delay
+			mov			a,#"T"
 			acall		dat
 			acall		delay
 			ret
@@ -209,35 +272,107 @@ mo_aug:		mov			a,#"a"
 mo_sep:		mov			a,#"S"
 			acall		dat
 			acall		delay
-			mov			a,#"e"
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"P"
+			acall		dat
+			acall		delay
+			mov			a,#"T"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"M"
+			acall		dat
+			acall		delay
+			mov			a,#"B"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
 			acall		dat
 			acall		delay
 			ret
 
-mo_oct:		mov			a,#"o"
+mo_oct:		mov			a,#"O"
 			acall		dat
 			acall		delay
-			mov			a,#"c"
+			mov			a,#"C"
+			acall		dat
+			acall		delay
+			mov			a,#"T"
+			acall		dat
+			acall		delay
+			mov			a,#"O"
+			acall		dat
+			acall		delay
+			mov			a,#"B"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
+			acall		dat
+			acall       delay
+			ret
+
+mo_nov:		mov			a,#"N"
+			acall		dat
+			acall		delay
+			mov			a,#"O"
+			acall		dat
+			acall		delay
+			mov			a,#"V"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"M"
+			acall		dat
+			acall		delay
+			mov			a,#"B"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
 			acall		dat
 			acall		delay
 			ret
 
-mo_nov:		mov			a,#"n"
+mo_dec:		mov			a,#"D"
 			acall		dat
 			acall		delay
-			mov			a,#"o"
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"C"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"M"
+			acall		dat
+			acall		delay
+			mov			a,#"B"
+			acall		dat
+			acall		delay
+			mov			a,#"E"
+			acall		dat
+			acall		delay
+			mov			a,#"R"
 			acall		dat
 			acall		delay
 			ret
-
-mo_dec:		mov			a,#"d"
-			acall		dat
-			acall		delay
-			mov			a,#"e"
-			acall		dat
-			acall		delay
-			ret
-						
+					
 show_m:		clr			a
 			add			a,r3
 			da			a
