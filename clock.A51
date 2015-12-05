@@ -14,11 +14,12 @@ start:		setb		ex0
 			mov			r6,#15h		;year
 			acall		setup
 			mov			a,#00h
-ad:			acall		show_all
+ad:			mov			r7,#60
+ref:		acall		show_all
 			acall		D_1S
 			cpl			p3.0
+			djnz		r7,ref
 			acall		add_m
-			acall		check_add
 stop:		sjmp		ad
 
 check_add:	jb			p1.0,ch_2
@@ -516,19 +517,21 @@ dat: 		mov 		p2,a
 			clr 		p3.7
 			ret
 
-delay: 		mov 		r0,#04h
+delay: 		mov 		r0,#02h
 b2: 		mov 		r1,#0ffh
-b3: 		djnz 		r0,b2
+b3: 		djnz 		r1,b3
+			djnz 		r0,b2
 			ret
 
 tb_n:		db			"0","1","2","3","4","5","6","7","8","9"
 
 D_1S:		push		0
-			mov			r0,#20				  ;15 to 1 sec	 900 to 1 min
+			mov			r0,#20				 
 HERE:		MOV 		TMOD,#01
 	 		MOV 		TL0,#-250
-			MOV 		TH0,#-200
+			MOV 		TH0,#-187
 			ACALL 		DELAY1s
+			lcall		check_add
 			djnz		r0,here
 			pop			0
 			ret
